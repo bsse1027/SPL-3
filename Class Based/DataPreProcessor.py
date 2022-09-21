@@ -6,9 +6,12 @@ import json
 
 class DataPreProcess:
 
-    def load_df(self, csv_path, nrows=None):
+    def __init__(self):
+        self.df = None
+
+    def loadDf(self, csv_path, nrows=None):
         json_cols = ['device', 'geoNetwork', 'totals', 'trafficSource']
-        df = pd.read_csv(csv_path,
+        self.df = pd.read_csv(csv_path,
                          # converters are dict of functions for converting values in certain columns. Keys can either be integers or column labels.
                          # json.loads() method can be used to parse a valid JSON string and convert it into a Python Dictionary.
                          # It is mainly used for deserializing native string, byte, or byte array which consists of JSON data into Python Dictionary.
@@ -23,6 +26,9 @@ class DataPreProcess:
             flat_col.columns = [f"{col}.{subcol}" for subcol in flat_col.columns]
             # Drop the json_col and instead add the new flat_col
             df = df.drop(col, axis=1).merge(flat_col, right_index=True, left_index=True)
-        df.to_csv('pre_processed.csv')
-        return df
+        self.df.to_csv('pre_processed.csv')
+        return
+
+    def getDf(self):
+        return self.df
 

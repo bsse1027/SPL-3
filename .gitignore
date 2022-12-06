@@ -1,2 +1,3 @@
 #NO CSV
 *.csv
+*.venv
